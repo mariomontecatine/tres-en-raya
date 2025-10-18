@@ -1,5 +1,5 @@
 const gameboard = (function () {
-  const gameboardLayout = new Array(9).fill(null);
+  let gameboardLayout = new Array(9).fill(null);
   const winningCombos = [
     [0, 1, 2],
     [3, 4, 5],
@@ -10,6 +10,10 @@ const gameboard = (function () {
     [0, 4, 8],
     [2, 4, 6], // Diagonales
   ];
+
+  const resetBoard = () => {
+    gameboardLayout.fill(null);
+  };
 
   const isBoardFull = () => {
     return !gameboardLayout.includes(null);
@@ -45,6 +49,7 @@ const gameboard = (function () {
     },
     checkWinner,
     isBoardFull,
+    resetBoard,
   };
 })();
 
@@ -70,25 +75,70 @@ const gameController = (function () {
     const moveSuccesful = gameboard.setChip(squareSelected, currentPlayer.chip);
 
     if (moveSuccesful) {
+      displayController.renderBoard();
       const winner = gameboard.checkWinner();
       const isTie = gameboard.isBoardFull();
       if (winner) {
         console.log(`¡El ganador es ${winner}!`);
         return;
-      }else if (!winner && isTie) {
+      } else if (!winner && isTie) {
         console.log("Empate!");
         return;
       }
-       else {
-        switchPlayerTurn();
-      }
+      switchPlayerTurn();
     } else {
       console.log("¡Esa casilla ya está ocupada! Inténtalo de nuevo.");
     }
   };
 
+  const restartGame = () => {
+    gameboard.resetBoard();
+    currentPlayer = jugador1;
+    displayController.renderBoard();
+
+    console.log("¡Juego reiniciado! Empieza Mario.");
+  };
+
   return {
     playRound,
     getCurrentPlayer: () => currentPlayer,
+    restartGame,
   };
 })();
+
+const displayController = (function () {
+  const boardDiv = document.querySelector(".gameboardLayout");
+  const restartButton = document.querySelector("#restart-button");
+  
+  boardDiv.addEventListener("click", (e) => {
+    const selectedSquareIndex = e.target.dataset.index;
+
+    if (!selectedSquareIndex) return;
+
+    gameController.playRound(selectedSquareIndex);
+  });
+
+  restartButton.addEventListener("click", () => {
+    gameController.restartGame();
+  });
+
+  const renderBoard = () => {
+    const board = gameboard.getGameboard();
+
+    boardDiv.innerHTML = "";
+
+    board.forEach((cell, index) => {
+      const cellElement = document.createElement("button");
+      cellElement.classList.add("square");
+      cellElement.dataset.index = index;
+      cellElement.textContent = cell;
+
+      boardDiv.appendChild(cellElement);
+    });
+  };
+
+  return {
+    renderBoard,
+  };
+})();
+displayController.renderBoard();
