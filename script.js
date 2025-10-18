@@ -165,13 +165,13 @@ const displayController = (function () {
 
       if (cell === "X") {
         const img = document.createElement("img");
-        img.src = "/images/Fox_artwork.png"; // ruta a tu imagen
+        img.src = "./images/Fox_artwork.png"; // ruta a tu imagen
         img.alt = "X";
         img.classList.add("chip");
         cellElement.appendChild(img);
       } else if (cell === "O") {
         const img = document.createElement("img");
-        img.src = "/images/Fpo-chicken-1.png";
+        img.src = "./images/Fpo-chicken-1.png";
         img.alt = "O";
         img.classList.add("chip");
         cellElement.appendChild(img);
