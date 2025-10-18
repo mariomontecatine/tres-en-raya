@@ -3,12 +3,12 @@ const gameboard = (function () {
   const winningCombos = [
     [0, 1, 2],
     [3, 4, 5],
-    [6, 7, 8], // Horizontales
+    [6, 7, 8],
     [0, 3, 6],
     [1, 4, 7],
-    [2, 5, 8], // Verticales
+    [2, 5, 8],
     [0, 4, 8],
-    [2, 4, 6], // Diagonales
+    [2, 4, 6],
   ];
 
   const resetBoard = () => {
@@ -20,7 +20,6 @@ const gameboard = (function () {
   };
 
   const checkWinner = () => {
-    // Itera sobre cada combinación ganadora
     for (const combo of winningCombos) {
       const [a, b, c] = combo;
 
@@ -109,7 +108,7 @@ const gameController = (function () {
 const displayController = (function () {
   const boardDiv = document.querySelector(".gameboardLayout");
   const restartButton = document.querySelector("#restart-button");
-  
+
   boardDiv.addEventListener("click", (e) => {
     const selectedSquareIndex = e.target.dataset.index;
 
@@ -131,7 +130,20 @@ const displayController = (function () {
       const cellElement = document.createElement("button");
       cellElement.classList.add("square");
       cellElement.dataset.index = index;
-      cellElement.textContent = cell;
+
+      if (cell === "X") {
+        const img = document.createElement("img");
+        img.src = "/images/Fox_artwork.png"; // ruta a tu imagen
+        img.alt = "X";
+        img.classList.add("chip");
+        cellElement.appendChild(img);
+      } else if (cell === "O") {
+        const img = document.createElement("img");
+        img.src = "/images/Fpo-chicken-1.png";
+        img.alt = "O";
+        img.classList.add("chip");
+        cellElement.appendChild(img);
+      }
 
       boardDiv.appendChild(cellElement);
     });
