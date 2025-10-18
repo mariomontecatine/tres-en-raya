@@ -1,5 +1,36 @@
 const gameboard = (function () {
   const gameboardLayout = new Array(9).fill(null);
+  const winningCombos = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8], // Horizontales
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8], // Verticales
+    [0, 4, 8],
+    [2, 4, 6], // Diagonales
+  ];
+
+  const isBoardFull = () => {
+    return !gameboardLayout.includes(null);
+  };
+
+  const checkWinner = () => {
+    // Itera sobre cada combinación ganadora
+    for (const combo of winningCombos) {
+      const [a, b, c] = combo;
+
+      if (
+        gameboardLayout[a] &&
+        gameboardLayout[a] === gameboardLayout[b] &&
+        gameboardLayout[a] === gameboardLayout[c]
+      ) {
+        return gameboardLayout[a];
+      }
+    }
+
+    return null;
+  };
 
   return {
     getGameboard() {
@@ -12,6 +43,8 @@ const gameboard = (function () {
         return;
       }
     },
+    checkWinner,
+    isBoardFull,
   };
 })();
 
@@ -37,7 +70,18 @@ const gameController = (function () {
     const moveSuccesful = gameboard.setChip(squareSelected, currentPlayer.chip);
 
     if (moveSuccesful) {
-      switchPlayerTurn();
+      const winner = gameboard.checkWinner();
+      const isTie = gameboard.isBoardFull();
+      if (winner) {
+        console.log(`¡El ganador es ${winner}!`);
+        return;
+      }else if (!winner && isTie) {
+        console.log("Empate!");
+        return;
+      }
+       else {
+        switchPlayerTurn();
+      }
     } else {
       console.log("¡Esa casilla ya está ocupada! Inténtalo de nuevo.");
     }
@@ -45,6 +89,6 @@ const gameController = (function () {
 
   return {
     playRound,
-    getCurrentPlayer: () => currentPlayer
+    getCurrentPlayer: () => currentPlayer,
   };
 })();
