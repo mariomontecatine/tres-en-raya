@@ -20,8 +20,31 @@ function createPlayer(nameInput, chipType) {
   return player;
 }
 
-const jugador1 = createPlayer('Mario', 'X');
-const jugador2 = createPlayer('Luigi', 'O');
+const gameController = (function () {
+  const jugador1 = createPlayer("Mario", "X");
+  const jugador2 = createPlayer("Luigi", "O");
+  let currentPlayer = jugador1;
 
-console.log(jugador1); 
-console.log(jugador2); 
+  const switchPlayerTurn = () => {
+    currentPlayer = currentPlayer === jugador1 ? jugador2 : jugador1;
+  };
+
+  const playRound = (squareSelected) => {
+    console.log(
+      `${currentPlayer.name} coloca su ficha en la casilla ${squareSelected}.`
+    );
+
+    const moveSuccesful = gameboard.setChip(squareSelected, currentPlayer.chip);
+
+    if (moveSuccesful) {
+      switchPlayerTurn();
+    } else {
+      console.log("¡Esa casilla ya está ocupada! Inténtalo de nuevo.");
+    }
+  };
+
+  return {
+    playRound,
+    getCurrentPlayer: () => currentPlayer
+  };
+})();
