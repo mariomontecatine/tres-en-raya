@@ -1,6 +1,5 @@
 * {
   margin: 0;
-  padding: 0;
   box-sizing: border-box;
 }
 
@@ -9,10 +8,14 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-family: "Playfair Display", serif;
-  font-optical-sizing: auto;
+  font-family: "Press Start 2P", system-ui;
   font-weight: 400;
   font-style: normal;
+}
+
+h1 {
+    margin-top: 1rem;
+    padding: 1rem;
 }
 
 .gameboardLayout {
