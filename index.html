@@ -6,16 +6,28 @@
     <title>Tres en raya</title>
 
     <link rel="stylesheet" href="styles.css" />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
+    <div class="player-setup">
+        <label for="player1-name">Nombre del Jugador 1 <img src="images/Fox_artwork.png" alt="fox">:</label>
+        <input type="text" id="player1-name" placeholder="Mario" />
+        <label for="player2-name">Nombre del Jugador 2 <img src="images/Fpo-chicken-1.png" alt="Fpo-chicken-1">:</label>
+        <input type="text" id="player2-name" placeholder="Luigi" />
+      <button id="start-game-button">Empezar Juego</button>
+    </div>
     <h1>Tres en raya!</h1>
     <p>by @mariomontecatine</p>
 
     <div class="gameboardLayout"></div>
     <button id="restart-button">Reiniciar Juego</button>
+    <p class="message"></p>
+
     <script src="script.js" defer></script>
   </body>
 </html>

@@ -58,18 +58,17 @@ function createPlayer(nameInput, chipType) {
 }
 
 const gameController = (function () {
-  const jugador1 = createPlayer("Mario", "X");
-  const jugador2 = createPlayer("Luigi", "O");
+  let jugador1 = createPlayer("Jugador 1", "X");
+  let jugador2 = createPlayer("Jugador 2", "O");
   let currentPlayer = jugador1;
+  let isGameOver = false; // <-- ¡NUEVO INTERRUPTOR!
 
   const switchPlayerTurn = () => {
     currentPlayer = currentPlayer === jugador1 ? jugador2 : jugador1;
   };
 
   const playRound = (squareSelected) => {
-    console.log(
-      `${currentPlayer.name} coloca su ficha en la casilla ${squareSelected}.`
-    );
+    if (isGameOver) return;
 
     const moveSuccesful = gameboard.setChip(squareSelected, currentPlayer.chip);
 
@@ -77,37 +76,59 @@ const gameController = (function () {
       displayController.renderBoard();
       const winner = gameboard.checkWinner();
       const isTie = gameboard.isBoardFull();
+
       if (winner) {
-        console.log(`¡El ganador es ${winner}!`);
-        return;
-      } else if (!winner && isTie) {
-        console.log("Empate!");
+        displayController.setMessage(`¡El ganador es ${currentPlayer.name}!`);
+        isGameOver = true; 
         return;
       }
+      if (!winner && isTie) {
+        displayController.setMessage("¡Es un empate!"); 
+        isGameOver = true; 
+        return;
+      }
+
       switchPlayerTurn();
+      displayController.setMessage(`Es el turno de ${currentPlayer.name}`);
     } else {
       console.log("¡Esa casilla ya está ocupada! Inténtalo de nuevo.");
     }
   };
 
+  const startGame = (player1Name, player2Name) => {
+    jugador1 = createPlayer(player1Name || "Jugador 1", "X");
+    jugador2 = createPlayer(player2Name || "Jugador 2", "O");
+
+    restartGame();
+  };
+
   const restartGame = () => {
     gameboard.resetBoard();
     currentPlayer = jugador1;
+    isGameOver = false;
     displayController.renderBoard();
-
-    console.log("¡Juego reiniciado! Empieza Mario.");
+    displayController.setMessage(
+      `¡Vamos! Empieza ${currentPlayer.name}.`
+    ); 
   };
 
   return {
     playRound,
     getCurrentPlayer: () => currentPlayer,
     restartGame,
+    startGame,
   };
 })();
 
 const displayController = (function () {
   const boardDiv = document.querySelector(".gameboardLayout");
   const restartButton = document.querySelector("#restart-button");
+  const messageElement = document.querySelector(".message");
+
+  const playerSetupDiv = document.querySelector(".player-setup");
+  const startButton = document.querySelector("#start-game-button");
+  const player1Input = document.querySelector("#player1-name");
+  const player2Input = document.querySelector("#player2-name");
 
   boardDiv.addEventListener("click", (e) => {
     const selectedSquareIndex = e.target.dataset.index;
@@ -119,6 +140,16 @@ const displayController = (function () {
 
   restartButton.addEventListener("click", () => {
     gameController.restartGame();
+  });
+
+  startButton.addEventListener("click", () => {
+    const player1Name = player1Input.value;
+    const player2Name = player2Input.value;
+    
+    gameController.startGame(player1Name, player2Name);
+    
+    playerSetupDiv.style.display = 'none';
+    boardDiv.style.display = 'grid'; 
   });
 
   const renderBoard = () => {
@@ -149,8 +180,12 @@ const displayController = (function () {
     });
   };
 
+  const setMessage = (message) => {
+    messageElement.textContent = message;
+  };
+
   return {
     renderBoard,
+    setMessage
   };
 })();
-displayController.renderBoard();
