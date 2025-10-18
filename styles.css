@@ -26,12 +26,12 @@ body {
   align-items: center;
 }
 input {
-    margin: 0.4rem;
-    padding: 0.4rem;
+  margin: 0.4rem;
+  padding: 0.4rem;
 }
 
 label img {
-    width: 1.5rem;
+  width: 1.4rem;
 }
 
 h1 {
@@ -59,7 +59,7 @@ p {
 }
 
 .square {
-  background-color: rgb(151, 209, 140);
+  background-color: rgb(95, 202, 74);
   border: 1px solid black;
   display: flex;
   justify-content: center;
@@ -68,17 +68,44 @@ p {
 }
 
 .square img.chip {
-  width: 70%; /* tamaño relativo al cuadrado */
+  width: 70%;
   height: 70%;
-  object-fit: contain; /* mantiene proporciones */
-  pointer-events: none; /* evita que bloquee los clics */
+  object-fit: contain;
+  pointer-events: none;
 }
 
-#restart-button, #start-game-button {
+#restart-button {
+  display: none;
+}
+
+#restart-button,
+#start-game-button {
   margin-top: 1rem;
   padding: 1rem;
   border-radius: 5px;
   border: 0;
   font-size: 0.8rem;
   background-color: white;
+  cursor: pointer;
+}
+
+a {
+  cursor: pointer;
+  text-decoration: none;
+  color: white;
+}
+
+a:hover {
+  color: rgb(214, 212, 212);
+  transition: 0.3s;
+}
+#restart-button:hover,
+#start-game-button:hover {
+  background-color: rgb(214, 212, 212);
+  transition: 0.3s;
+}
+
+input:focus {
+  background-color: rgb(214, 212, 212);
+  transition: 0.3s;
 }

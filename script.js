@@ -149,6 +149,7 @@ const displayController = (function () {
     gameController.startGame(player1Name, player2Name);
     
     playerSetupDiv.style.display = 'none';
+    restartButton.style.display = 'inherit'
     boardDiv.style.display = 'grid'; 
   });
 
