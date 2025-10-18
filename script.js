@@ -1,17 +1,27 @@
-const Gameboard = (function() {
-  const GameboardLayout = new Array(9).fill(null);
-  
+const gameboard = (function () {
+  const gameboardLayout = new Array(9).fill(null);
+
   return {
     getGameboard() {
-        return GameboardLayout;
+      return gameboardLayout;
     },
     setChip(position, type) {
-       if  (GameboardLayout[position]===null) {
-        return   GameboardLayout[position] = type;
-       }
-       else {
+      if (gameboardLayout[position] === null) {
+        return (gameboardLayout[position] = type);
+      } else {
         return;
-       }
+      }
     },
   };
 })();
+
+function createPlayer(nameInput, chipType) {
+  const player = { name: nameInput, chip: chipType };
+  return player;
+}
+
+const jugador1 = createPlayer('Mario', 'X');
+const jugador2 = createPlayer('Luigi', 'O');
+
+console.log(jugador1); 
+console.log(jugador2); 
