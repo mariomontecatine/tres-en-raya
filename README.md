@@ -19,7 +19,7 @@ Pequeño juego web creado para **The Odin Project**, que permite jugar al clási
 ## 🛠️ Tecnologías utilizadas
 - **HTML5**  
 - **CSS3**  
-- **JavaScript (vanilla)** — con uso de **módulos**, **closures** y **IIFE** para organizar el código.  
+- **JavaScript**  
 
 ---
 
